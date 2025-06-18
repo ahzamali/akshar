@@ -1,0 +1,1797 @@
+Akshar 1.1
+
+its making
+A program by
+
+Ahzam Ali
+Anwar Parvez
+and
+Neeraj Grover
+
+Developed at
+Computer Sciences lab.
+Department of Electronics and Communication
+Faculty of Engineering and Technology, J M I.
+New Delhi - 110025.
+Completed on May 16, 1999.
+© Ahzam Ali 1999.
+
+The program is a freeware, you are free to modify and improve the program in your way.
+Preface
+
+In an attempt to do something new we thought of designing a Hindi text editor. Since DOS based
+Hindi editors are not available, Hindi editors were available but for Windows based systems that
+required additional Hindi fonts to be loaded. We are successful in designing it. This is not an
+ultimate, it requires lot of improvements yet it accomplishes the requirements. We will appreciate
+your contribution in improving this software.
+
+The program is designed by three of us, the credit for the font design gocs to Anwar Parvez, Neeraj
+Grover has designed the module that displays the characters, and rest of the modules and
+integration is done by Ahzam Ali.
+Contents
+
+The Font
+
+Functions
+
+Integrating all
+
+Program Listing
+Akshar 1.1 its making
+
+1 The Font
+
+Letters in Hindi are not uniform, that poised a lot of difficulty in displaying these
+characters, As we see that character overlapping is ubiquitous in Hindi script, this compels
+the design to be complicated, requiring very prudent controls.
+
+Because of the disparate size of characters they are stored in different format, one
+being in 8 X 13 pixels in which the main characters are stored, e.g. ka, kha, etc. The
+matras are stored in 8 X 8 pixels format and the larger matras like ee ki matras and aa ki
+matras are stored in 10 X 19 pixels format. The file “HSC.HIN” contains the main
+characters and “HSCM.HIN” contains the matras. At the start of the program the main
+characters are loaded in the array hin_main_char [X] [Y] and the matras in
+hin_matra [X] [Y] from the above two files.
+
+For displaying the characters two functions are used hnd_prn () and
+hnd_prn_matra () these functions take three parameters the first one is X in the
+character's array (hin_main_char and hin_matra) indicating the beginning of
+character and the next two indicate the dimension of character. The function identkey
+() identifies the key pressed and passes on the parameter to one of these functions
+adhering to which character is to be displayed, still some characters require special
+treatment, for such characters the function identkey () itself has the displaying
+routine. The function identkey () takes one parameter that is the character to be
+displayed. The location of characters in the array can be determined by looking at the
+parameter identkey () function passes to hnd_ prn () or hnd_prn_matra =
+
+The characters are deleted in different ways, too. The 8 X 13 pixels’ characters are
+deleted by superimposing the image next to the character on the character (here it is
+presumed that the matras are typed after the main character). While the matras are deleted
+by overwriting them in the background colour, the function bkspace () calls the
+function identkey () after changing the print_flag value to zero and the
+print color to background colour, indicating that the character to be deleted as
+parameter to the identkey () . Both ee ki matras are deleted along with the letter on
+which it is put, it is done since a part of it also lies on top of the character and it can lie
+before the character as well.
+
+Since the matras occupy the space above or below the main character in Hindi
+script, that is the cursor position does not change often for matras, it becomes obscure to
+find which character will be deleted by pressing Delete key and which will be deleted on
+Backspace key. To avoid this obscurity the function pointer () draws the character
+before the cursor and at the cursor on the status bar on the screen (lower left corner of the
+screen).
+
+The movement of the cursor between the characters is not uniform, this movement
+is done after finding the number of pixel the cursor moved, after displaying the character.
+Akshar 1.1 its making
+
+2 Functions
+
+The document has to be saved in retrievable form, these are saved as binary files with a
+header “Hindi editor”. This file can be viewed in any DOS editor. You will see the header
+and English letters, these letters correspond to the key pressed while writing the
+document in Hindi editor.
+
+The document is temporarily kept in a buffer *char_str that is saved to the file
+by function savefile (). To open a file the function openfile’ () is used which
+checks the file for the header and then reads the number of character in the file and then
+puts the string in the buffer. The number of character is tracked by variable total_char
+_ The function getfilename () asks for the file name from the user. The file name is
+given an extension “.hif” which stands for Hindi file. The function new_file ()
+clears the buffer and reinitialises the screen.
+
+The functions print massage () prints a massage on the status bar on the
+screen. The function print hin str () can be used to print any sting on the screen,
+it takes three parameters first the string to be printed, which contains the English alphabet
+corresponding to the Hindi character, the second parameter is the column number and the
+third one is row number. One column is eight pixels wide and one row is twenty-seven
+pixels wide.
+
+The function initscreen () initiates the screen by displaying the functions of
+the keys. Exit () closes the program after saving the file, if not saved, and displays the
+final massage. The function cursor () makes the cursor blink until the key is hit. As
+the name suggests the functions moveptrit (),moveptrrt (), moveptrup ()
+and moveptrdn () are used to move the cursor in left, right, up and down directions
+respectively, maintaining the respective position in the buffer by changing the value of the
+variable cur_char.
+
+The function getchar () copies the image of the position where the cursor is
+to be displayed and keeps it in a buffer till it is placed again by putchar () after the
+cursor is moved from that position. getline () and putline () are used to
+overlap the image of the line if a character is deleted.
+Akshar 1.1 its making
+
+3. Integrating it all
+
+It is obvious that first of all graphics is initialised, because the Hindi fonts can’t be
+displayed in the character mode. The looks are given to the screen. Then a wait for the key
+to be pressed.
+
+Graphics is initialised in 640 by 480 sixteen colour mode. The font is loaded in the
+memory, and the screen is set. Then the program enters the main loop that starts at the
+label begin :,pointer () iscalledthen cursor () is called to display the cursor
+till a key is pressed. The key is pressed is passed to the switch - case statements, it
+tackles them accordingly, the function keys are processed and the general key are taken as
+default and are kept in the buffer. After processing each key the controls goes to begin
+
+The most significant thing we haven’t discussed yet is about the printing of the
+Hindi text by the printer. The idea is to read the display on the screen make an image of it
+in the memory and print it in graphic mode of the printer. An Epson - 100 dot matrix
+printer is a line printer hence the image is read in part of eight pixels vertically from top,
+set of complete row of eight pixels is given at a time. The function print_f ile ()
+does this for us. For writing this module one needs to know the working of printer.
+As in Epson - 100 the following command is given to bring it in eraphics mode.
+
+biosprint (0, Oxlb, 90);
+biosprint (0, 0x33, 0);
+biosprint (0, 0x18, 0);
+
+Finally, we hope that’s enough information for you to understand the program. It
+would be our pleasure receiving your comment and queries on this program.
+Akshar 1.1 its making
+
+4 Program Listing
+
+HEI IES III ITEC SISSIES SITIOS BIE IOC III IIIA SE ISIN
+
+* ate
+* Akshar Hindi ( devnagri )editor designed by =
+e Ahzam Ali x
+es Anwar Parvez *
+a Neeraj Grover i
+* Completed on May 16, 1999 a
+i *
+* Feel free to modify and use the program in your way Se
+* “a
+| SIGS EI EES II IGG SIEGE TCI IEIGITIIOCTE III TE IORI IA IES /
+
+#include<stdio.h>
+#include<bios.h>
+#include<string.h>
+#include<conio.h>
+#include<graphics.h>
+#include<stdlib.h>
+#include<dos.h>
+
+#define maxxc 510
+#define maxyc 450
+#define EXT Wo hae
+#define BXCOL Ol
+#define BFCOL ile
+#define FGCOL 0)
+#define BKCOL 15
+#define CRCOL 12
+#define BRCOL o1
+#define OFCOL 10
+#define xcinc 8
+#define ycinc 27
+#define incx 8
+#define incy 38
+
+FOI I ICICI REI ICICI I I I I CCI I II ICICI EI ICSC III I TOI I EI IAAI,
+* *
+
+* Function Declaration he
+* a
+
+(FI I CCI II ICG ISIC I ii i I I FICCI I I ICCC I III IIR RARE AEH /
+
+void getchar (void);
+
+void putchar (void);
+
+void bkspace (void);
+
+void cursor (int =, int y);
+
+void Exit (void);
+
+void getfilename (void);
+
+void getline (void);
+
+void hin_prn (int astat, int maxa, int maxb);
+void hin prn matra (int astat, int maxa, int maxb) ;
+void identkey (char ¢);
+
+void initscreen (void);
+
+void moveptrlt (void);
+Akshar 1.1 its making
+
+void moveptrrt (void);
+
+void moveptrdn (void);
+
+void moveptrup (void);
+
+void new file (void);
+
+void openfile (void);
+
+void print massage (char *mes);
+void print_hin_str (char *str, int rp, int i¢) 7
+void pointer (void);
+
+void print _file (void);
+
+void putline (void);
+
+void refresh (void);
+
+void scrollup (void);
+
+void scrolldn (void);
+
+void savefile (void);
+
+void *imagel, *image2;
+
+//init of char
+//character number reffered */
+
+Sone hin_main_char[800] [13], hin_matra[20] [19], eur char = 0, del,
+currentlineNo = 0;
+
+int total-line = 0, a, b, backgr_ color = 15, print_color, xcpos = inex;
+yepos = incy, tempxcp, total_char = 0;
+
+static char c =|0, *char_str, *trn, print flag, save_flag = 1, name_flag
+= 0;
+
+char filename[20] = "csuke";
+
+PELE: * fp;
+
+ABI ISIE IE EI SI IFO ISIS EIS ICICI TE IO ICIS IIE ICI TCI A IIIA III AN
+
+* Main Function x
+re *
+
+{FIER ICI I IORI ICI I ona al I A ICICI ICICI I ICI IRR ICICI A AIC SE AIS SA IR IIH
+
+void main (void)
+{
+
+inti, 7, driver, mode;
+driver = VGA;
+mode = VGAHI;
+// Initiate graphics mode 640 X 480 X 16
+
+initgraph (&driver, &mode, "\\tc\\bgi");
+
+char str = |(char *) malloc (6400);
+fOr a= =" 07) 1 =<—600. ao)
+char str[ii] = *\0';
+
+// Read the font from the data files
+
+BlGhe* ble le
+£ = fopen ("hsem.hin", "“xb");
+if (£ == NULL)
+Akshar 1.1 its making
+
+{
+closegraph ();
+printf ("FILE hscm.hin NOT FOUND");
+exit (1);
+}
+fread (hin_matra, sizeof (hin _matra), 1, f);
+Eclose -(£);
+f = fopen ("hsc.hin", rb");
+if (f£ == NULL)
+{
+closegraph ();
+printf ("FILE hsc.hin NOT FOUND");
+existe: C1)
+}
+
+fread (hin_main_char, sizeof (hin _main_ char), 1;
+
+fclose (f);
+initscreen ();
+
+// Main program) loop
+begin:
+
+// Points to the character
+pointer ();
+
+// Blinks the cursor
+cursor (xcpos, ycpos);
+print flag + 1;
+print color = 0;
+
+e = getch ();
+Switch (c)
+
+{
+
+// Do nothing when Escape and tab is pressed
+case 27:
+case 9:
+goto begin;
+
+// Process backspace
+case 8:
+if (cur char > 0 && char str[cur_char - 1)
+{
+bkspace ();
+if (char str[cur char — 1) == 'f')
+bkspace ();
+}
+goto begin;
+case 0:
+// If the key pressed is function key
+switch (getch ())
+{
+//up arrow
+case 72:
+
+if (ycpos > incy + 22 && currentlineNo > 0)
+
+{
+_putchar (yer
+
+"\n')
+Akshar 1.1 its making
+
+moveptrup ();
+_getchar (Og
+currentlineNo--;
+}
+goto begin;
+//down arrow
+case 80:
+if (ycpos < (15 * ycinc) && currentlineNo < total line)
+{
+_putchar ();
+moveptrdn ();
+_getchar Gee
+currentlineNot+;
+}
+goto begin;
+//left arrow
+case 75:
+dt -(((curschar.> 0) && (char_str[cur_char SS 1.0)
+{
+putchar ();
+moveptrit ();
+_getchar ()3
+}
+goto begin;
+//cight arrow
+case 77:
+42 (char str[cur_char] '= 10 && char_str[cur_char] fe AO he
+total. char > cur_char)
+{
+_putchar (ys
+moveptrrt ();
+_getchar (eH
+}
+goto begin;
+// Function 1
+case 59:
+savefile ();
+goto begin;
+// Function 2
+case 60:
+getfilename ();
+goto begin;
+// Function 3
+case 61:
+openfile ();
+goto begin;
+// Function 4
+case 62:
+refresh ();
+goto begin;
+({/ -function 5
+case 63:
+print, file Og
+goto begin;
+// Paunction 6
+
+,
+Akshar 1.1 its making
+
+case 64:
+new file ();
+goto begin;
+//- Funetion 10
+case 68:
+Exit ();
+// Delete
+case 83:
+if (total char > cur char && char_str[cur_char + de) Sn)
+{
+tempxcp = XCpOs;
+print_flag = 0;
+identkey (char str[cur char]);
+getline ();7 = =
+xcpos = tempxcp;
+putline ();
+memmove (char str + cur char, char_str + Gur char + 13
+total char - cur_char); = =
+_getchar (Gigs
+}
+goto begin;
+default:
+goto begin;
+}
+
+default:
+Lf (c == 9)
+goto begin;
+if (c == 13 && currentlineNo == 14)
+
+{
+print massage ("vkSj ykbu ufga gSa MkdgesV ns[ksa");
+goto begin;
+} |
+if (total) char > cur char)
+memmove, (char str + cur char + 1, char str + cur_char,
+total. -charas cur char); = =
+identkey (c);
+
+if (c == 13)
+
+char strf[cur char] = '\n';
+else =
+
+char stir[cur char] = c;
+char _str[total_char Spee) ate OFS
+
+total char+t;
+cur chart;
+save flag = 0;
+
+break;
+}
+if (xcpos >= maxxc && ycpos <= (16 * ycinc))
+{
+
+xcpos = incx;
+
+yepos += ycinc;
+
+char _str[|cur_char] = hn! 3
+
+cur_chartt;
+total chart+;
+currentlineNo++;
+total_linet+;
+Akshar 1.1 its making
+
+}
+goto begin;
+} |
+
+// end of main
+
+// Clears the buffer and resets the values to initial values
+void new_file (void)
+{ |
+
+cur char = 0;
+
+total char = 0;
+
+xcpos = incx;
+
+yepos = incy;
+
+save flag = 1;
+
+initscreen ();
+
+return;
+
+} |
+
+// Prints the file
+void print file} (void)
+{ |
+register i,|j, x, y, ln;
+
+int temp[8], templ = 0, 1 = 256 7-23
+char printch[500] [3];
+
+// Check if the! printer is busy
+
+if -(biosprint (2, 0,-0)- != 0x90)
+
+{
+print massage ("fizaVj o;Lr gS 7 ugha gS");
+return;
+
+}
+
+// Display a massage and print the image on white area of screen
+void *image3;
+image3 = malloc (imagesize (12, 435, 450, Clow Dear
+getimage (12, 435, 450, 457, image3);
+setfillstyle (1, BXCOL);
+bar “(12 ,,. 435,450, 497);
+print_color = BFCOL;
+print hin ser. ("d°I;k izrh_k djs-", 2, 16);
+for (In = 0; In < 16; In++)
+{
+for (y = DP?
+for (x -
+
+{
+
+5 5057 -xbr)
+
+Vo <37 y+)
+ee a
+for| (z = 0; z < 8; z++)
+
+{
+iif (qetpixel (x, z+ 30+ y * 86 + 1n * 27) == 0)
+
+temp[z] = 1;
+else
+temp[z] = 0;
+templ += (temp[z] * 1);
+1 /= 2;
+}
+1 = 128;
+printch[x - 5][y] = templ;
+
+templ = 0;
+|
+Akshar 1.1 its making
+
+}
+
+biosprint (0, Oxlb, 0);
+biosprint (0, 0x33, 0);
+biosprint (0, 0x18, 0);
+for (j = 0; 3 < 3; j++)
+
+{ |
+biosprint (0, Oxlb, 0);
+biosprint (0, Ox2a, 0);
+biosprint (0, 0x00, 0):
+biosplrint (0, 500 %$ 256, 0);
+biosprint (0, 500 / 256, 0);
+for (h = 0; i < 500; i++)
+biosprint (0, printch[iJ [jl], 0);
+biosprant. (0, ‘“\r', 0);
+biosprint (0; '\n", 0)+
+} |
+}
+putimage (12, 435, image3, 0);
+free (image3);
+print color = FGCOL;
+return; |
+
+// Exit the program after displaying the massage and save file if the
+
+// file is not) saved
+
+void Exit (void)
+
+{
+_putchar (hi
+if (save_fllag == 0)
+
+savefile ();
+cleardevice ();
+print color = OFCOL;
+print hin str ("vikj d=", 34, 6)?
+print _hin str ("vgtte] vuoj vkSj uhjt", 28, 7);
+print hin str ("dh izirgrh", 33, 8)7
+setcolor (1);
+outtextxy ((250;,-254, "(e)") 3
+print_hin str ("vgtte vyh] 1999", 33, 9);
+print hin str ("v£|d tkudkjh dsfy, MkdgesV ns[ksa", 26, 10);
+getch ()7 |
+closegraph |();
+exit (0); |
+}
+|
+
+// Move the cursor up when up arrow is pressed
+
+void moveptrup (void)
+
+{
+register i3]
+for (j = 0; J ee)
+{ |
+
+cur_char--;
+
+a (char _|str[cur_char] == 10)
+jt+; |
+if (cur_char == 0)
+
+10
+Akshar 1.1 its making
+
+|
+break;
+
+|
+|
+it (cur char != 0)
+cur_chart++;
+xcpos = inck;
+yopos == ycinc;
+return;
+
+} |
+
+// Move the cursor left
+void moveptrlt (void)
+( |
+print flag - 0;
+print_color = BKCOL;
+
+identkey (char_str[cur_char - 1]);
+eur char-=;
+return;
+
+} |
+|
+
+// Move the cursor right
+void moveptrrt (void)
+
+{ |
+print flag = 0;
+
+print_color = FGCOL;
+
+identkey (char_str[cur_char]);
+cur_char++;}|
+
+return; |
+
+} |
+|
+
+// Move the cursor down
+
+void moveptrdn (void)
+
+{ |
+
+while (char _str[cur_char] != Tn
+cur_chart+;
+
+cur _chartt;
+
+xcpos-= indx;
+ycpos += ydinc;
+return;
+
+} |
+|
+// Initialises the screen display
+void initscreen (void)
+{ |
+int a |
+setfillstyl (1, BEKCCL) ;
+bar (0, 0, |640, 480);
+setfillstylle (1, BRCOL);
+bar (0, 0, |640, 30);
+bar (0, 435, 640, 480);
+outtextxy (2, 10, "F1");
+outtextxy— (70,10 = 4E2") ;
+outtextxy (150, -10,; "F3").;
+outtextxy (260, 10, "F4");
+(
+(
+(
+
+outtextxy 340, EO; UES!) .7
+outtextxy (410, 10, "F6");
+outtextxy (490, 10, "F10");
+
+1]
+Akshar 1.1 its making
+
+print_color = BFCOL;
+print_hin str (alsa) ei (akan, 22 = 0) 7
+print hin sjtr (Yuekad.k", 11, 0);
+print hin str ("“[kksyus dsfty;s", 21, 0)?
+print hin sitr-("igquoz £}", 35, 0);
+print hin str ("eqn.kZ", 45, 0);
+print hin ser ("upk",- 54, 0);
+print hin str ("fudkl", 65, 0);
+for (i = OF a <8 y- StE)
+{
+if (filename[i] == '.')
+
+break;
+}
+
+filename [i]| = "NO":
+
+print_hin_sjtr (filename, 35, 16);
+
+print color = FGCOL;
+
+_getchar Ole
+} |
+
+pf Pra mt a string in hindi
+void print hin str (char *str, int r, int c)
+{ |
+
+Int xc; yet;
+
+print flag = 1;
+
+xct = xcpos);
+
+yet = ycpos;
+
+xcpos = r * xcinec + inex;
+
+ycopos = c * ycinc + 8;
+
+while (*stry != '\O')
+
+{
+
+identkey |(*str);
+
+Strtt;
+} |
+xcpos = xct};
+ycpos = yct;
+return; |
+
+} i}
+|
+// Manages backspace function
+void bkspace ()
+{ i}
+getline ();
+print color = backgr_ color;
+eur -char==;
+total_char--;
+identkey (char str[cur_char]);
+memmove (char str + cur_char, char_str + cur_char + 1, total char -
+eur char + 1); = =
+putline ();
+return;
+
+}
+
+// Prints character
+void hin_prn (int astat, int maxa, int maxb)
+{ i}
+
+register A;
+
+12
+Akshar 1.1 its making
+
+if (print -<flag 1==0)
+for (a = O; a < 8; at+)
+for (b + 07 b < 3} -b+t)
+Le (getpixel (xcpos + a, ycpos + b) == CRCOL)
+putpixel (xcpos + a, ycpos + b, backgr color);
+Lt (print| color == backgr color) =
+xCpos -= maxa; =
+
+for (a = astat, A = 0; a < astat + maxa, A < Maxa; at+, Att)
+|
+
+for (b = 0; b < maxb; b++)
+
+if (hin_main_char[a][b] != 0)
+putpixel (xcpos + A, ycpos + b, print_color);
+
+}
+
+alag (print _flag == 0 && print_color == backgr_color)
+xcpos -= maxa;
+
+if (print _color != backgr_color)
+
+xcpos += maxa; =
+
+return;
+
+}
+|
+// Prints Matra
+void hin_prn_matra (int astat, int maxa, int maxb)
+
+{
+int A; |
+for (a = Oza < 8; att)
+for (b ==); b-< 37 -bt+)
+if (getpikel (xcpos + a, ycpos + b) == CRCOL)
+Dee et (xcpos + a, ycpos + b, backgr_color);
+if (print flag != Q)
+(a = astat, A = 0; a < astat + maxa, A < maxa; att, At++)
+
+for
+for (6 = DP} b < maxb; b++)
+dee (hin| matra[a] [b] t= 0)
+putpikel (xcpos + A, ycpos + b, print color);
+return; =
+
+}
+
+// Makes the cursor blink and reports to main when a key is pressed
+
+void cursor (int x, int y)
+{
+while (!kbhit ())
+{ |
+setfillstyle (1, CRCOL);
+bar (5, “Vie eo ty ye Le
+delay (7);
+setfillstyle (1, backgr_ color);
+baie 649 Vip et ae Yo Pk)
+delay (7);
+} |
+
+return;
+
+}
+
+// Displays the character that will be deleted on pressing backspace and
+
+// delete respectively
+void pointer (void)
+{ |
+
+imt= xc, Ve;
+
+13
+Akshar 1.1 its making
+
+print flag = 1;
+
+backgr colot = BXCOL;
+setfillstyle (1, BXCOL);
+bar (30, 435, 120, 460);
+
+XC = XCPOS;
+ye = ycpos;
+xcpos = 42;
+
+yepos = 445;
+
+print_color) = BFCOL;
+
+identkey (char_str[cur_char - 1));
+xcpos = 80;
+
+ycpos = 445;
+
+print_color| = CRCOL;
+
+identkey (char_str[cur_char]);
+XCpOsS = XC;
+
+ycpos = yc;
+
+backgr color = BKCOL;
+
+return;
+
+}
+
+// Saves the image on which the cursor is displayed
+void _getchar (void)
+{
+
+|
+imagel = malloc (imagesize (0, 0, 8, 2));
+getimage (xepos, ycpos, xcpos + 8, ycpos + 1, imagel);
+return;
+
+}
+
+//- Ruts.the image when the cursor is moved from a place
+void _putchar (woid)
+{ |
+
+putimage (xcpos, ycpos, imagel, 0);
+
+free (imagel);
+
+return;
+
+}
+
+// Identifies the characters and decides how to print that
+//hindi numerics
+//hindi special characters
+void identkey (char c)
+{
+switch (c)
+{
+case '
+if (print) color == backgr_color)
+xcpos += By =
+xcpos -= (8;
+ycpos += |13;
+hin prn (0, 8, 4)?
+if (print_color == backgr_color)
+xcpos += 8; =
+yepos -= {137
+break; |
+Cane =) |
+if (print, color == backgr_color)
+
+Sete
+
+14
+Akshar 1.1 its making
+
+xcpos += 4;
+xcpos -= 4;
+ycpos += 13;
+hin prn (8, 4, 4);
+it (print color == backgr color)
+XCpOSs +5 4;
+yepus -= 13;
+break;
+case 'l': |
+hin prn (12, 8, 13)4
+break;
+Case "I"; |
+hin_prn (20, 4, 13);
+break; |
+case "2":
+hin prn (24, 8, 13)%
+break; |
+Gase 1 @': =} ;
+hin _prn (32, 8, ieS3)
+break;
+ease ‘3’:
+hin prn (#0, 8, L3)7
+break;
+case '#': |
+hin prn (48, 8, 13);
+break;
+case '4':
+hin pen (06,<.8, 13) %
+break;
+case 'S$':
+hin_prn (64, 8, 13);
+break;
+case. St
+Hin pen (2, 28; 12)
+break;
+case *8':
+hin prn (pO, 4, 13);
+break;
+case '6':
+hin_prn (84, 8, 13);
+break;
+Gase oa:
+hin _prn (92, 4, 6);
+break;
+Gase ‘/':
+hin prn (96, 8, 13);
+break;
+case 'E&':
+hin_prn (104, 8, 13);
+break;
+case '8':
+hin prn (1112, 8, 13)3
+break;
+Gase **'?
+hin _prn (120, 4, 6);
+break;
+Akshar 1.1 its making
+
+case '9':
+hin prn (124, 8, 13);
+break; |
+case '(':
+if (print | color == backgr_ color)
+xCpos -= Zi =
+hin_prn (132, 4, 13);
+dete (print| color != backgr color)
+xcpos += 2;
+break;
+case '0O': |
+hin_prn (136, 8, 13);
+break; |
+case ')': |
+hin_prn (144, 8, 13);
+break;
+ecasen t—' ||
+if (print|color == backgr GELOr)
+xcpos -= 2; a
+
+fflush (stdin);
+fflush (stdout);
+if (print| flag '= Q)
+{
+for (a = 0; a <8; att)
+for| (b = 0; b < 13; btt)
+
+if (getpixel (xcpos + a, ycpos + b)
+putpixel (xcpos + a, ycpos + b,
+
+== CRCOL)
+
+FGCOL) ;
+
+putpixel (xcpos + 2, ycpos + 13, print coler);
+
+}
+
+if (print| color != backgr_color)
+xcpos +f 2;
+break;
+Case
+hin prn (152, 8, 13g
+break;
+case '=';
+hin_prn (160, 6;,- 13) 3
+break;
+case ‘*+':
+if (print| flag != 0)
+putpixel (xcpos - 4, ycpos + 14, print_color);
+else | =
+putpixel (xcpos - 4, ycpos + 14, backgr_color);
+break; | =
+case '\\":
+hin prn (166, 8, 13);
+break;
+case '|':
+hin_prn (174, 8, 13);
+break;
+
+// first line over
+
+//nindi characters
+
+1 re
+ease 'q!:
+Akshar 1.1 its making
+
+af (print color == backgr_ color)
+xcpos += 6;
+xcpos —-= 6;
+
+ycpos += 13;
+hin-prn (182, ©, 5)7
+
+if (print| color == backgr_color)
+xcpos += 6;
+ycpos -= 13;
+break;
+Gasen "0" 2. - |
+hin_prn (188, 8, 13);
+break; |
+case ‘wi:
+if (print| color == backgr_color)
+xcpos += 6;
+xcpos -= 4;
+
+ycpos += 13;
+hin _prn (196, 6, 5);
+
+if (print| color == backgr_color)
+xcpos +F 6; =
+
+xcpos -= 2;
+
+ycpos -= 13;
+
+break;
+
+case 'W':
+
+if (print, color == backgr_color)
+xcpos += 8; ae
+
+xcpos -= #4;
+
+ycpos -= B;
+
+hin_prn (202, 8, 8);
+
+if (print, color == backgr_color)
+
+xcpos +r &;
+
+ycpos += 6;
+xcpos == 4;
+break;
+
+case 'e':
+hin prn (210, 8, 13);
+break;
+
+case 'E!:
+hin_prn (210, pee an
+break;
+
+Gase “rl:
+hin_prn (218, 8, 13);
+break;
+
+case 'R':
+hin. prn (218, 6, 13);
+break;
+
+Case ‘t's:
+hin pin: (226, 8,13) 7
+break;
+
+case 'T!':
+hin _prn (226, 6,.-13);
+break;
+
+case ‘y's
+hin -prn- (234, 8,13);
+break;
+
+Case '¥':
+
+17
+Akshar 1.1 its making
+
+hin prn (234, 6,13);
+break;
+Gaseo ul:
+hin_prn (242, 8, 13);
+break; |
+case 'U!: |
+hin _prn (242, 6, 13);
+break; |
+Case ‘it: —|
+hin prn (250, 8, eS)
+break; |
+case 'TI': |
+hineprn (250; 6,713);
+break; |
+case 'o': |
+hin_prn (P58, 8, 13)?
+break;
+case 'O':
+hin prn (266, 6, 13);
+break;
+case 'p':
+hin prn (872; 8, 13);
+break;
+Gase 'P'?
+hin_prn (RED) 6,13)
+break;
+ease -t([":
+hin prn (280, 6, 13);
+break;
+case '{':
+him prn- (286,-6, 13);
+break;
+case ']':
+if (print| color == backgr_color)
+XCpOs -= 2;
+xcpos += 1;
+yepos += 11;
+hin prn (292, 4, 6);
+
+if (print) color != backgr_color)
+xcpos += 1; =
+
+if (print|color == backgr_color)
+xcpos -F- 1;
+
+yepes -= [11;
+
+break;
+
+Gase %}':
+hin_prn (296, 8, 13) 3
+break;
+
+// 2nd row over
+
+case ‘al:
+if (print| flag !=-0)
+putpixel (xcpos, ycpos - 5, print_color);
+if (print| color == backgr_color) =
+putpixel (xcpos, ycpos — 5, backgr_ color);
+break;
+Gase: TAT:
+
+18
+Akshar 1.1 its making
+|
+
+if (print | color == backgr_ color)
+xcpos -# 4;
+
+hineprn (804; > 3, 13);
+
+if (print|color != backgr_color)
+xCpos +4 4;
+
+break;
+
+Gase- 's*:
+
+if (print|color == backgr_color)
+xcpos += 8;
+
+xcpos -= 8;
+
+ycpos -= 8;
+
+hin_prn (807, 8, 8);
+
+if (print| color == backgr_color)
+xcpos += 8;
+
+ycpos += 8;
+
+break; |
+case. S'3 |
+if (print| color == backgr_color)
+xcpos += 8;
+xcpos -= B;
+ycpos —-= 8;
+hin _prn (B15, 8, 8);
+if (print| color == backgr_ color)
+
+xcpos ++ 8;
+yepos += 8;
+
+break; |
+case 'd':
+honsopen -(8237.-8,- 13) 4
+break;
+case 'D':
+hin. prn (831, 6, 13);
+break;
+case *f':
+if (print| color == backgr_ color)
+xcpos -F 2;
+ycpos -= 6;
+hin_prn_matra (05-0 7. 19)
+ycpos += 6;
+if (print, color != backgr_color)
+xepos +e 2; =
+break;
+case "F's
+hin prn (837, 6, 13);
+break;
+Gase ‘g!:
+hin prn (343, 8, 13);
+break;
+case ‘'G":
+hin: prn-(Godl., 8, 13) 4
+break;
+Case 'h':
+if (print) color != backgr_color)
+xcpos -= 4; =
+ycpos -= 6;
+if (print| color == backgr color)
+xcpos -= 10; =
+
+19
+Akshar 1.1 its making
+
+hin _prn_matra (10, 10, 19);
+
+aise (print | color != backgr color)
+xcpos += 10;
+alas (print_color == backgr color)
+
+xcpos += 4;
+
+ycpos += 6;
+break;
+
+case 'H!': |
+hin _prn (359, 6, ies) A
+break; |
+
+case 'j':
+hin prn (865, 8, 13);
+break; |
+
+case 'J':
+hin pin -(BY3;,. 8i,-13)3
+break;
+
+ease 'K':
+hin_prn (pel, 8, 123)3%
+break;
+
+case 'k':
+hin prn (B89, 3,.13)7
+break;
+
+ease ‘1':
+hin, prn- (392, 8, 13)%
+break;
+
+case '"L':
+hin prn (892, 6, 13);
+break;
+
+case ';
+hin_prn (400, 8, 13)3
+break;
+
+case
+
+hin_prn (408, 8, 13);
+break;
+
+case 39:
+hin_prn (416, 6, 13);
+break;
+
+Gase. 1's
+hin _prn (422, G7 es3)s)
+break;
+
+//single
+
+//3rd line over
+case 'Z':
+LE (print_color == backgr_color)
+xcpos t= 8;
+xcpos -= 4;
+ycpos -= 8;
+hin_prn (428, 8, 8);
+if (print) color == backgr_ color)
+xcpos += 8;
+xcpos -= 4;
+ycpos += 8;
+break;
+case 'z!':
+xcpos -= 6;
+ycpos += |7;
+
+20
+
+quote
+Akshar 1.1 its making
+
+cif (print color == backgr_ color)
+xcpos ++ Ao =
+hin prn (436, 4, 4);
+if (print|color == backgr_color)
+XCPpOS += 4;
+yepos -= 7;
+xcpos += 2;
+break;
+case 'x': | //pura ga
+hin_prn (440, ©, 13)3
+break;
+case 'X': | //aadha ga
+hin _prn (440, 6, 13);
+break;
+case ‘a's
+hin prn (448, 8, 13);
+break;
+case 'C":
+hin_prn (448, 6, 13);
+break;
+case 'v':
+han prn (456, 8, 13);
+break; |
+case 'V':
+hin_prn (464,-8, 13);
+break;
+case 'b!:
+hin _prn (A472, 8, 13);
+break;
+case 'B!':
+hin _prn (480, 8, 12)>
+break;
+case 'n':
+hin_prn (488, 8, d3)e 7
+break;
+case ‘N':
+hin_prn (496, 8, 13);
+break;
+case 'm': |
+hin _prn (504, 8, 13);
+break; |
+case 'M': |
+hin prn (512, 8, 13);
+break; |
+Gase *>,': |
+hin_prn (520, 8, 13);
+break;
+Gase '<':
+hin prn (528, 8, 13);
+break;
+Case *."': |
+hin _prn (536, 6, 13);
+break; |
+case: 3 |
+hin -prn (542, 8, 13);
+break;
+
+21
+Akshar 1.1 its making
+
+Gase 12s =|
+bine pr: (450, -6, £3)
+break; |
+case '/': |
+hin prn: ($56,6, 13) ;
+break;
+case 30: |
+hin_prn (562, 8; -23))
+break; |
+case 31: |
+hin_prn (9
+break;
+case 28: |
+hin _prn (578, 8, 13);
+break; |
+casenl:
+hin prn ($86, 8, 13);
+break;
+case 15: |
+hin_prn (594, 8, 13 )e3
+break; |
+case 5:
+hin _prn (602, 8, 13);
+break; |
+case 18: |
+hin prn (610, 8, 13);
+break;
+case 17: |
+hin_prn (618, 8, 13)3
+break;
+case 23:
+hin prn (626, 8, 13);
+break;
+case 4:
+hin prn (634, 8, 13) 7
+break;
+case 6: |
+hin prn (642, 8, 13);
+break; |
+case 24:
+hin prn (650, @, 13);
+|
+
+Oi By 3) 7
+
+break;
+case- 11:
+hin prn (658, 8, 13);
+break;
+case 12:
+hin_prn (666, 8, 13);
+break;
+case 2:
+hin pr (674; 8,13);
+break;
+case 14:
+hin prin: (682, 8,13)
+break;
+case 13: | //RETURN KEY
+case 10:
+
+| 22
+Akshar 1.1 its making
+
+if (print|flag != 0)
+{ a
+if (y¢pos < (yeine *-15))
+{ |
+currentlineNot+;
+total linet+;
+xcpos = incx;
+yepos += ycinc;
+}
+}
+
+break; |
+case 32: | //SPACE BAR
+if (xcpos|< 620)
+if (print_color == backgr_ color)
+xcpos|-= xcinc;
+aeae (print | color != backgr_ color)
+xcpos +f xcinc; a 2
+break;
+default:
+break;
+} // end of switch
+return; |
+
+} |
+|
+// Moves the line back when a character is deleted
+void getline (void)
+{
+
+image2 = malloc (imagesize (xcpos, ycpos - 8, maxxc, ycpos + 17);
+getimage (xcpos, ycpos - 8, maxxc, ycpos + 17, image2);
+return;
+
+}
+
+void putline (wbid)
+{
+putimage (xcpos, ycpos - 8, image2, 0);
+free (image2) ;
+
+return;
+
+}
+
+// Refreshes the display
+
+void refresh (void)
+
+{ |
+register i;
+total_line = O;
+initscreen |();
+xcpos = inck;
+ycpos = incy;
+for(i = 0; |1-<=-total —chars Vt)
+
+identkey (char str[il);
+
+cur_char = 0; =
+eee = 0;
+xcpos = inck;
+ycpos = incy;
+
+23
+Akshar 1.1 its making
+
+}
+
+_getchar ()}
+
+return; |
+|
+|
+|
+
+|
+// Function to save the buffer content on disk
+
+{
+
+}
+
+void savefile (void)
+
+int i; |
+BELE * £7]
+char _str[total_char] = '\0'?
+if (name_flag == 0)
+getfilename ();
+strceat (filename, BMTE)3
+f = fopen (filename, "wb");
+fwrite ("Hindi editor", sizeof ("Hindi editor"), 1,
+fwrite (&total_char, 2, 1, f);
+fwrite (char str, total_char, 1, £)3
+fclose (£);) =
+save flag =I
+return;
+
+// Read a file from the disk
+void openfile (woid)
+
+{
+
+FILE * £6;
+biahoesaky
+char tp[600];
+getfilename! ()
+
+if (filename[0] == NULL)
+return;
+
+strcat (filename, EXT);
+
+fo = fopen |(filename, Waeb =)
+if (fo != NULL)
+
+{
+fread (tp, 12, 1, £0);
+folie] = Oy
+
+aut (stromp (tp, “Hindi editor") != 0)
+
+{ |
+
+print massage ("Qkby ekU; ugha gS");
+return;
+
+}
+
+fread (tp, 2, 1, fo);
+
+cur char — tp[0] * 256 + tp[ll;
+
+fseek (fo, 1, 1)
+
+fread (char str, cur_char, 1, fo);
+fclose (fo);
+
+initscreen ();
+
+xcpos = incx;
+
+ycpos = incy;
+
+total _char = 0;
+
+name flag = 1;
+
+for (i = |0; i <= cur char; i++)
+
+{ |
+identkey (char str(i]);
+totall chartt;
+
+24
+Akshar 1.1 its making
+} |
+cur_chart++;
+_getchar ()
+return;
+
+}
+
+else |
+
+{ |
+print_massage ("Qkby ugh feyk");
+return;
+
+|
+
+// Displays a massage on the status bar
+void print_massage (char *mes)
+
+{
+
+void *image3;
+
+image3 = malloc (imagesize (12, 435, 450, 457));
+
+getimage (12, 435, 450, 457, image3);
+setfillstyle (1, BXCOL);
+
+bar (12, 435, 450, 457);
+print_color|= BFCOL;
+
+print _hin_str (mes, 2, 16);
+
+getch ();
+
+putimage (12, 435, image3, 0);
+
+free (imageB) ;
+
+PELNC color =
+return;
+
+FGCOL;
+
+}
+
+// Gets the file name from the user
+void getfilename (void)
+
+{ |
+void *image3, *image4;
+
+int xe; VCr
+
+xc = xCpos;
+
+yc = ycpos;
+
+print: £lag-= 1;
+
+xcpos = 300;
+
+yepos = 225;
+
+image3 = malloc (imagesize (200, 206,
+getimage (200, 210, 400, 250, image3);
+setfillstyle (1, BXCOL);
+
+bar (200, 21.0, 400, 250);
+
+setfiillstyle (1, 7);
+
+bar- (290, 2115, 370, 242);
+
+print hin str ("Qkby dk uke"; 25, 8)3
+foe int 1 fF 07-4 < 87 147)
+
+{
+print color = BFCOL;
+backgr color = 1;
+cursor (xicpos, ycpos);
+c = getch ();
+
+if (e¢ == 13)
+break; |
+if (c == 27)
+
+goto ret;
+
+25
+
+400, 240));
+Akshar 1.1 its making
+
+if (c == 4 && i > 0)
+{ |
+print color = backgr_color;
+1s= 7. |
+image4 = malloc (imagesize (xcpos, ycpos — 8, 400, yepos +
+17))3 |
+getimage (xcpos, ycpos — 8, 370, ycpos + 17, image4);
+identkey (filename [i]);
+putimage (xcpos, ycpos - 8, image4, 0);
+free (image4);
+print color = BFCOL;
+filename[i] = '\O';
+ia5i |
+continue;
+} |
+if (2 1= 8 -|.| -c¢ != 83)
+|
+filename[i] = ce
+filename[i + 1] = '\0';
+
+identkey (c);
+} |
+}
+save flag =|1;
+|
+ret: |
+putimage (200, 210, image3, 0);
+free (image8);
+bar (250, 485, 360, 460);
+for (i = OFS <-8; i++)
+{
+if (filename[{i] == '.')
+break;
+} i}
+filename[i]| = '\O';
+print hin str (filename, 35, 16);
+print color = 0;
+XCPpOS = XC;
+yepos = yc;
+return;
+
+26
