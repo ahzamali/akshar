@@ -1,0 +1,62 @@
+{\rtf1\ansi\deff0
+{\fonttbl
+{\f1\fcharset2 Symbol;}{\f00\fcharset0 Arial;}
+{\f10\fcharset0 Times New Roman;}
+{\f20\fcharset0 Courier New;}
+}
+{\colortbl;\red0\green0\blue0;\red0\green0\blue255;}
+{\stylesheet{\f0;}
+}
+\splytwnine\ftnlytwnine\htmautsp\nolnhtadjtbl\useltbaln\alntblind\lytcalctblwd\lyttblrtgr\lnbrkrule\nobrkwrptbl\snaptogridincell\allowfieldendsel\ApplyBrkRules\wrppunct\asianbrkrule\rsidroot6310308\newtblstyruls\nogrowautofit\paperh15842\paperw12242\margl360\margr3151\margb360\margt360\pard\ri19\ql\fi0\sl-206\f00 \fs19{\fs19\charscalex100\b0\i0\ul0\f00 Akshar 1.1 \fs17\charscalex134\f10 its making \par}
+\pard
+\pard\li38\ri20\sb172\ql\fi0\sl-340\f10 \fs32{\fs32\charscalex92\b\i0\ul0\f10 1 The Font \par}
+\pard
+\pard\ri86\sb888\qj\fi0\sl-283\f10 \fs23{\fs23\charscalex100\b0\i0\ul0\f10 Letters in Hindi are not uniform, that poised a lot of difficulty in displaying these characters. As we see that character overlapping is ubiquitous in Hindi script, this compels the design to be complicated, requiring very prudent controls. \par}
+\pard
+\pard\li62\ri24\sb254\qj\fi720\sl-283\f10 \fs23{\fs23\charscalex100\b0\i0\ul0\f10 Because of the disparate size of characters they are stored in different format, one being in 8 X 13 pixels in which the main characters are stored, e.g. \fs23\charscalex107\i ka, kha, \fs23\charscalex100\i0 etc. The matras are stored in 8 X 8 pixels format and the larger matras like \fs23\i ee \fs22 ki \fs23 matras \fs23\i0 and \fs23\i aa \fs22 ki \fs23 matras \fs23\i0 are stored in lOX 19 pixels format. The file "HSC.HIN" contains the main characters and "HSCM.HIN" contains the matras. At the start of the program the main characters are loaded in the array hin_main_char \fs18\charscalex108\f00 [X] [Y] \fs23\charscalex100\f10 and the matras in hin matra \fs18\charscalex108\f00 [X] [Y] \fs23\charscalex100\f10 from the above two files. \par}
+\pard
+\pard\li62\ri24\sb268\qj\fi720\sl-283\f10 \fs23{\fs23\charscalex100\b0\i0\ul0\f10 For displaying the characters two functions are used hnd _prn ( ) and hnd p rn _ ma t r a ( ) these functions take three parameters the first one is X in the character's array (hin_main_char and hin_matra) indicating the beginning of character and the next two indicate the dimension of character. The function identkey \par}
+\pard
+\pard\li42\ri44\qj\fi67\sl-288\f10 \fs23{\fs23\charscalex100\b0\i0\ul0\f10 ( ) identifies the key pressed and passes on the parameter to one of these functions adhering to which character is to be displayed, still some characters require special treatment, for such characters the function i den t ke y () itself has the displaying routine. The function i den t ke y () takes one parameter that is the character to be displayed. The location of characters in the array can be determined by looking at the parameteridentkey () functionpassestohnd_prn () orhnd_prn_matra (). \par}
+\pard
+\pard\li62\ri19\sb235\qj\fi720\sl-283\f10 \fs23{\fs23\charscalex100\b0\i0\ul0\f10 The characters are deleted in different ways, too. The 8 X 13 pixels' characters are deleted by superimposing the image next to the character on the character (here it is presumed that the matras are typed after the main character). While the matras are deleted by overwriting them in the background colour, the function bkspace () calls the function identkey () after changing the print_flag value to zero and the print_color to background colour, indicating that the character to be deleted as parameter to the identkey () . Both \fs23\i ee \fs22 ki \fs23 matras \fs23\i0 are deleted along with the letter on which it is put, it is done since a part of it also lies on top of the character and it can lie before the character as well. \par}
+\pard
+\pard\li62\ri5\sb259\qj\fi720\sl-283\f10 \fs23{\fs23\charscalex100\b0\i0\ul0\f10 Since the matras occupy the space above or below the main character in Hindi script, that is the cursor position does not change often for matras, it becomes obscure to find which character will be deleted by pressing Delete key and which will be deleted on Backspace key. To avoid this obscurity the function pointer () draws the character before the cursor and at the cursor on the status bar on the screen (lower left corner of the screen). \par}
+\pard
+\pard\li100\ri58\sb216\ql\fi720\sl-283\f10 \fs23{\fs23\charscalex100\b0\i0\ul0\f10 The movement of the cursor between the characters is not uniform, this movement is done after finding the number of pixel the cursor moved, after displaying the character \par}
+\pard
+\sbknone\sect\pard\sectd\paperh15842\paperw12242\margl360\margr3198\margb360\margt360\pard\ri30\ql\fi0\sl-211\f00 \fs19{\fs19\charscalex100\b0\i0\ul0\f00 Akshar 1.1 \fs17\charscalex133\f10 its making \par}
+\pard
+\pard\li86\ri30\sb163\ql\fi0\sl-345\f10 \fs31{\fs28\charscalex100\b0\i0\ul0\f00 2 \fs31\charscalex92\b\f10 Functions \par}
+\pard
+\pard\li5\ri39\sb1094\qj\fi0\sl-278\f10 \fs22{\fs22\charscalex100\b0\i0\ul0\f10 The document has to be saved in retrievable form, these are saved as binary files with a header "Hindi editor". This file can be viewed in any DOS editor. You will see the header and English letters, these letters correspond to the key pressed while writing the document in Hindi editor. \par}
+\pard
+\pard\li9\ri30\sb297\ql\fi724\sl-288\f10 \fs22{\fs22\charscalex100\b0\i0\ul0\f10 The document is temporarily kept in a buffer \fs27\charscalex89\f00 * \fs22\charscalex125\f10 char _ s t r \fs22\charscalex100 that is saved to the file by function \fs22\charscalex125 savefile (). \fs22\charscalex100 To open a file the function \fs22\charscalex125 openfile' () \fs22\charscalex100 is used which checks the file for the header and then reads the number of character in the file and then puts the string in the buffer. The number of character is tracked by variable \fs22\charscalex125 total char \fs22\charscalex100 . The function \fs22\charscalex125 getfilename () \fs22\charscalex100 asks for the file name from the user. The file name is given an extension" . \fs22\charscalex125 hi f" \fs22\charscalex100 which stands for Hindi file. The function \fs22\charscalex125 new f i 1 e ( ) \fs22\charscalex100 clears the buffer and reinitialises the screen. \par}
+\pard
+\pard\li9\ri30\sb312\qj\fi724\sl-283\f10 \fs22{\fs22\charscalex100\b0\i0\ul0\f10 The functions \fs22\charscalex125 p r in t _ ma s sag e () \fs22\charscalex100 prints a massage on the status bar on the screen. The function \fs22\charscalex125 p r in t _ hi n _ s t r () \fs22\charscalex100 can be used to print any sting on the screen, it takes three parameters first the string to be printed, which contains the English alphabet corresponding to the Hindi character, the second parameter is the column number and the third one is row number. One column is eight pixels wide and one row is twenty-seven pixels wide. \par}
+\pard
+\pard\li9\ri1\sb268\ql\fi724\sl-288\f10 \fs22{\fs22\charscalex100\b0\i0\ul0\f10 The function \fs22\charscalex125 ini tscreen () \fs22\charscalex100 initiates the screen by displaying the functions of the keys. \fs19\charscalex118\f00 Ex \fs20\charscalex200 i \fs20\charscalex197 t () \fs22\charscalex100\f10 closes the program after saving the file, if not saved, and displays the final massage. The function \fs22\charscalex125 cursor () \fs22\charscalex100 makes the cursor blink until the key is hit. As the name suggests the functions \fs22\charscalex125 moveptrl t (), moveptrrt (), moveptrup () \fs22\charscalex100 and \fs22\charscalex125 moveptrdn () \fs22\charscalex100 are used to move the cursor in left, right, up and down directions respectively, maintaining the respective position in the buffer by changing the value of the variable \fs22\charscalex125 cur char. \par}
+\pard
+\pard\li9\ri30\sb326\qj\fi724\sl-283\f10 \fs22{\fs22\charscalex100\b0\i0\ul0\f10 The function _ \fs22\charscalex125 get ch a r () \fs22\charscalex100 copies the image of the position where the cursor is to be displayed and keeps it in a buffer till it is placed again by \fs22\charscalex125 _put char () \fs22\charscalex100 after the cursor is moved from that position. \fs22\charscalex125 getline () \fs22\charscalex100 and \fs22\charscalex125 putline () \fs22\charscalex100 are used to overlap the image of the line if a character is deleted. \par}
+\pard
+\pard\li4291\ri30\sb3086\ql\fi0\sl-192\f10 \fs18{\fs18\charscalex100\b0\i0\ul0\f10 2 \par}
+\pard
+\sbkpage\sect\pard\sectd\paperh15842\paperw12242\margl1809\margr1783\margb360\margt360\pard\li4\ri10\ql\fi0\sl-216\f00 \fs19{\fs19\charscalex100\b0\i0\ul0\f00 Akshar 1.1 \fs18\charscalex132\f10 its making \par}
+\pard
+\pard\li14\ri10\sb168\ql\fi0\sl-336\f10 \fs31{\fs30\charscalex92\b0\i0\ul0\f00 3. \fs31\charscalex90\b\f10 Integrating it all \par}
+\pard
+\pard\li4\ri1\sb652\qj\fi0\sl-278\f10 \fs22{\fs22\charscalex100\b0\i0\ul0\f10 It is obvious that first of all graphics is initialised, because the Hindi fonts can't be displayed in the character mode. The looks are given to the screen. Then a wait for the key to be pressed. \par}
+\pard
+\pard\ri6\sb273\qj\fi729\sl-283\f10 \fs22{\fs22\charscalex100\b0\i0\ul0\f10 Graphics is initialised in 640 by 480 sixteen colour mode. The font is loaded in the memory, and the screen is set. Then the program enters the main loop that starts at the label \fs22\f20 begin :, pointer () \fs22\f10 is called then \fs22\f20 cursor () \fs22\f10 is called to display the cursor till a key is pressed. The key is pressed is passed to the \fs22\f20 s wit ch - cas e \fs22\f10 statements, it tackles them accordingly, the function keys are processed and the general key are taken as default and are kept in the buffer. After processing each key the controls goes to \fs22\f20 beg i n \par}
+\pard
+\pard\ri6\sb561\ql\fi724\sl-283\f10 \fs22{\fs22\charscalex100\b0\i0\ul0\f10 The most significant thing we haven't discussed yet is about the printing of the Hindi text by the printer. The idea is to read the display on the screen make an image of it in the memory and print it in graphic mode of the printer. An Epson - 100 dot matrix printer is a line printer hence the image is read in part of eight pixels vertically from top, set of complete row of eight pixels is given at a time. The function \fs20\charscalex131\f00 p \fs20\charscalex187 r \fs20\charscalex200 i \fs22\charscalex100\f10 n \fs20\charscalex197\f00 t _ \fs19\charscalex162 f \fs20\charscalex200 i \fs21\charscalex166\f10 1 \fs22\charscalex100 e () does this for us. For writing this module one needs to know the working of printer. \par}
+\pard
+\pard\li4\ri6\ql\fi0\sl-283\f10 \fs22{\fs22\charscalex100\b0\i0\ul0\f10 As in Epson - 100 the following command is given to bring it in graphics mode. \par}
+\pard
+\pard\li724\ri4670\sb216\qj\fi0\sl-254\f20 \fs22{\fs22\charscalex100\b0\i0\ul0\f20 biosprint (0, Oxlb, 0); biosprint (0, Ox33, 0); biosprint (0, Ox18, 0); \par}
+\pard
+\pard\ri10\sb292\ql\fi724\sl-283\f10 \fs22{\fs22\charscalex100\b0\i0\ul0\f10 Finally, we hope that's enough information for you to understand the program. It would be our pleasure receiving your comment and queries on this program. \par}
+\pard
+\pard\li4267\ri10\sb5328\ql\fi0\sl-196\f10 \fs18{\fs18\charscalex100\b0\i0\ul0\f10 3 \par}
+\pard
+\sbkpage\sect\pard\sectd}
