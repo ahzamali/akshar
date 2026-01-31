@@ -91,7 +91,8 @@
         }
 
         code {
-            background-color: #eee;
+            background-color: #333;
+            color: #f4f4f9;
             padding: 2px 5px;
             border-radius: 3px;
             font-family: 'Consolas', 'Monaco', monospace;
@@ -103,6 +104,12 @@
             padding: 15px;
             border-radius: 5px;
             overflow-x: auto;
+        }
+
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            color: inherit;
         }
 
         footer {
@@ -140,7 +147,8 @@
             <h2>Running on Modern Systems</h2>
             <p>Since Akshar is a 16-bit DOS application from 1999, it cannot run directly on modern 64-bit operating
                 systems (Windows 10/11, macOS, Linux). You will need an emulator like <strong>DOSBox</strong> or
-                <strong>DOSBox-X</strong>.</p>
+                <strong>DOSBox-X</strong>.
+            </p>
 
             <h3>Step 1: Install DOSBox</h3>
             <p>Download and install DOSBox from the official website: <a
