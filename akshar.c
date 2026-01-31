@@ -100,7 +100,7 @@ void main (void)
     // Read the font from the data files
 
     FILE *f;
-    f = fopen ("hscm.hin", "rb");
+    f = fopen ("assets\\hscm.hin", "rb");
     if (f == NULL)
     {
         closegraph ();
@@ -109,7 +109,7 @@ void main (void)
     }
     fread (hin_matra, sizeof (hin_matra), 1, f);
     fclose (f);
-    f = fopen ("hsc.hin", "rb");
+    f = fopen ("assets\\hsc.hin", "rb");
     if (f == NULL)
     {
         closegraph ();
