@@ -1,94 +1,195 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-<meta http-equiv="Content-Type"
-content="text/html; charset=iso-8859-1">
-<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
-<title>Akshar Help</title>
-<bgsound src="music.wav" loop="1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Guide - Akshar Hindi Editor</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --bg-color: #f4f4f9;
+            --text-color: #333;
+            --card-bg: #fff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        nav {
+            background-color: var(--primary-color);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        nav a:hover,
+        nav a.active {
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        main {
+            flex: 1;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-top: 2rem;
+        }
+
+        h3 {
+            color: var(--primary-color);
+            margin-top: 1.5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: block;
+            margin: 10px auto;
+        }
+
+        code {
+            background-color: #eee;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        pre {
+            background-color: #2d2d2d;
+            color: #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #2c3e50;
+            color: #bdc3c7;
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
-<body bgcolor="#FFFFFF">
+<body>
 
-<p><a href="aboutakshar.htm"><font color="#0080FF" size="7"
-face="PixieFont"><strong>Akshar</strong></font></a><font
-color="#0080FF" size="7" face="PixieFont"><strong> </strong></font><font
-color="#004000" size="7"><strong>Help </strong></font></p>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="AksharHelp.htm" class="active">User Guide</a>
+        <a href="AboutAkshar.htm">About</a>
+    </nav>
 
-<p align="left"><a href="#func"><font color="#004000" size="4"
-face="Courier New">Function Keys</font></a><font color="#004000"
-size="4" face="Courier New"> </font><a href="#open"><font
-color="#004000" size="4" face="Courier New">Openning page</font></a>
-<a href="#imp"><font color="#004000" size="4" face="Courier New">Important</font></a></p>
+    <main>
+        <h1>User Guide</h1>
 
-<p align="left"><a name="key"><font color="#004000" size="4">The
-keyboard layout</font></a></p>
+        <div class="card">
+            <h2>Running on Modern Systems</h2>
+            <p>Since Akshar is a 16-bit DOS application from 1999, it cannot run directly on modern 64-bit operating
+                systems (Windows 10/11, macOS, Linux). You will need an emulator like <strong>DOSBox</strong> or
+                <strong>DOSBox-X</strong>.</p>
 
-<p align="center"><img src="keylayout.gif" width="641"
-height="255"></p>
+            <h3>Step 1: Install DOSBox</h3>
+            <p>Download and install DOSBox from the official website: <a
+                    href="https://www.dosbox.com/download.php?main=1">dosbox.com</a>.</p>
 
-<hr>
+            <h3>Step 2: Mount the Application Folder</h3>
+            <p>1. Open DOSBox.</p>
+            <p>2. Mount the directory where you have downloaded the Akshar files as the <code>C:</code> drive. For
+                example, if you extracted the files to <code>D:\akshar</code> on Windows:</p>
+            <pre><code>mount c d:\akshar</code></pre>
+            <p><em>(Replace <code>d:\akshar</code> with the actual path to your folder)</em></p>
 
-<p align="left"><a name="func"><font color="#004000" size="4">The
-Editor function keys</font></a></p>
+            <h3>Step 3: Run Akshar</h3>
+            <p>Switch to the mounted drive and execute the program:</p>
+            <pre><code>c:
+AKSHAR.EXE</code></pre>
+            <p><strong>Note:</strong> Ensure the file <code>EGAVGA.BGI</code> is in the same folder, as it is required
+                for graphics.</p>
+        </div>
 
-<p align="left"><font color="#400040" size="4">F1</font><br>
-Save File </p>
+        <div class="card">
+            <h2>Keyboard Mapping</h2>
+            <p>Akshar uses a phonetic keyboard layout to map English keys to Hindi characters. This was designed to be
+                intuitive for users familiar with QWERTY keyboards.</p>
+            <img src="keylayout.gif" alt="Akshar Keyboard Layout">
+            <p style="text-align: center; font-style: italic; color: #666;">Figure: Key mapping reference</p>
+        </div>
 
-<p align="left"><font color="#400040" size="4">F2</font><br>
-<a href="#imp">Rename</a></p>
+        <div class="card">
+            <h2>File Operations</h2>
+            <p><strong>Saving Files:</strong> When saving a file, you simply need to provide the filename. The editor
+                automatically appends the <code>.HIF</code> (Hindi Font) extension. There is no need to type the
+                extension manually.</p>
+            <p><strong>Loading Files:</strong> Similarly, when opening a file, provide the name of your previously saved
+                work.</p>
+        </div>
 
-<p align="left"><font color="#400040" size="4">F3</font><br>
-Open Existing File</p>
+        <div class="card">
+            <h2>Printing</h2>
+            <p>The editor supports direct printing from the DOS interface. Due to the graphical nature of the custom
+                fonts, printing operates in batches. Each page holds approximately 15 lines of text. Long documents will
+                be printed sequentially in these batches.</p>
+        </div>
+    </main>
 
-<p align="left"><font color="#400040" size="4">F4</font><br>
-Refresh the display <br>
-Since, sometimes, the display becomes ambiguous while editting,
-because of some bugs in the program.</p>
+    <footer>
+        <p>&copy; 1999-2026 Ahzam Ali. Released under the MIT License.</p>
+    </footer>
 
-<p align="left"><font color="#400040" size="4">F5</font><br>
-Prints File</p>
-
-<p align="left"><font color="#400040" size="4">F6</font> <br>
-New File </p>
-
-<p align="left"><font color="#400040" size="4">F10 </font><br>
-<font color="#000000" size="3">Exit the program</font></p>
-
-<hr>
-
-<p align="left"><a name="open"><font color="#004000" size="4">The
-Openning Page</font></a></p>
-
-<p align="left">&nbsp;</p>
-
-<p align="center"><img src="Aksharop.gif" width="640"
-height="480"></p>
-
-<p align="center"><font color="#D52F2B" size="4">This snap shows
-what is displayed where on the editor screen</font></p>
-
-<hr>
-
-<p><a name="imp"><font color="#004000" size="4">Important points
-to be taken care of</font></a></p>
-
-<p><font color="#004000" size="4">File name</font></p>
-
-<p><font color="#000000" size="3">This editor saves the file with
-.HIF extension. Don't give the extension while entering the file
-name in the program.</font></p>
-
-<p>Avoid giving the file name with following characters</p>
-
-<p align="center"><img src="resname.gif" width="417" height="37"></p>
-
-<p>Since these characters are illigal characters for file name in
-DOS.</p>
-
-<p><font color="#004000" size="4">In this editor we have a
-limitation of 15 lines only.</font></p>
-
-<p>More than 15 lines can be printed in batches.</p>
 </body>
+
 </html>

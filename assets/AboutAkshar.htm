@@ -1,108 +1,165 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-<meta http-equiv="Content-Type"
-content="text/html; charset=iso-8859-1">
-<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
-<title>About Akshar</title>
-<bgsound src="music.wav" loop="infinite">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Akshar Hindi Editor</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --bg-color: #f4f4f9;
+            --text-color: #333;
+            --card-bg: #fff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        nav {
+            background-color: var(--primary-color);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        nav a:hover,
+        nav a.active {
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        main {
+            flex: 1;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style-type: square;
+            padding-left: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #2c3e50;
+            color: #bdc3c7;
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        footer a {
+            color: #3498db;
+        }
+    </style>
 </head>
 
-<body bgcolor="#FFFFFF" bgproperties="fixed">
+<body>
 
-<p align="center"><a "#akshar"><font color="#0080FF" size="7"
-face="PixieFont">Akshar</font></a></p>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="AksharHelp.htm">User Guide</a>
+        <a href="AboutAkshar.htm" class="active">About</a>
+    </nav>
 
-<p align="left"><a href="aksharhelp.htm"><font color="#004000"
-size="5" face="Courier New">Help</font></a><font color="#004000"
-size="5" face="Courier New"> </font><a href="#Authors"><font
-color="#004000" size="5" face="Courier New">Authors</font></a><font
-color="#004000" size="5" face="Courier New"> </font><a
-href="#Source"><font color="#004000" size="5" face="Courier New">Source</font></a><font
-color="#004000" size="5" face="Courier New"> </font><a
-href="aksharhelp.htm#key"><font color="#004000" size="5"
-face="Courier New">Keyboard Layout</font></a><font
-color="#004000" size="5" face="Courier New"> </font><a
-href="aksharhelp.htm#imp"><font color="#004000" size="5"
-face="Courier New">Important</font></a><font color="#004000"
-size="5" face="Courier New"> </font></p>
+    <main>
+        <h1>About Akshar</h1>
 
-<p><font color="#000000" size="5">It is seen that computers are
-influencing our society and because of this the english language.
-We thought of doing something for our mother tongue and planed to
-design a command interpreter in hindi with capabilities of
-solving mathematical problems too. We, been working on it for the
-last few months, have succeeded in designing an editor needed for
-the interpreter and now working with the interpreter part of it,
-we call it</font><font color="#004000" size="5"> </font><font
-color="#0080FF" size="5" face="PixieFont">Akshar</font><font
-color="#400040" size="5" face="PixieFont">.</font></p>
+        <div class="card">
+            <h2>History</h2>
+            <p>Akshar was conceived and developed in the spring of 1999. It represents a significant student project
+                aimed at solving a real-world problem: the lack of accessible, native Hindi text editing tools for the
+                DOS platform.</p>
+            <p>Developed at the <strong>Computer Sciences Lab, Department of Electronics and Communication</strong>,
+                Faculty of Engineering and Technology, Jamia Millia Islamia, New Delhi.</p>
+            <p><strong>Completion Date:</strong> May 16, 1999</p>
+        </div>
 
-<p><font color="#0080FF" size="5" face="PixieFont">Akshar</font><font
-color="#004000" size="5" face="PixieFont"> </font><font
-color="#000000" size="5">is a DOS based Hindi ( Devnagri script )
-editor, designed to work on the low end computers. It has been
-designed using the Turbo C compiler. It uses graphics
-extensively. At present it has a printer support for Epson 100
-dot matrix printer. </font></p>
+        <div class="card">
+            <h2>The Team</h2>
+            <ul>
+                <li><strong>Ahzam Ali:</strong> Main software architecture, coding, and system integration.</li>
+                <li><strong>Anwar Parvez:</strong> Typeface design and font aesthetics.</li>
+                <li><strong>Neeraj Grover:</strong> Character display logic and rendering module.</li>
+            </ul>
+        </div>
 
-<p><a name="Authors"><font color="#004000" size="6"><strong>The
-Authors</strong></font></a></p>
+        <div class="card">
+            <h2>Technical Specifications</h2>
+            <ul>
+                <li><strong>Programming Language:</strong> C</li>
+                <li><strong>Platform:</strong> MS-DOS</li>
+                <li><strong>Graphics Engine:</strong> Borland Graphics Interface (BGI)</li>
+                <li><strong>Input Method:</strong> Custom phonetic mapping via keyboard interrupt handling.</li>
+            </ul>
+            <p>You can view the full source code on <a href="https://github.com/ahzamali/akshar">GitHub</a>.</p>
+        </div>
 
-<p><a name="Authors"><font color="#0080C0" size="5"><strong>Ahzam
-Ali </strong></font><font color="#004000" size="5"><br>
-</font><font color="#400040" size="3">A final year B Tech student
-at Faculty of Engineering and Technology, JMI , New Delhi.</font></a></p>
+        <div class="card">
+            <h2>License</h2>
+            <p>This software is provided as <strong>Freeware</strong>. It is released under the <strong>MIT
+                    License</strong>.</p>
+            <p>You can read the full license text <a
+                    href="https://github.com/ahzamali/akshar/blob/main/LICENSE">here</a>.</p>
+            <p>You are free to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
+                Software, subject to the conditions of the MIT License.</p>
+        </div>
+    </main>
 
-<p><a name="Authors"><font color="#0080C0" size="5"><strong>Anwar
-Parvez </strong></font><font color="#004000" size="5"><br>
-</font><font color="#400040" size="3">Has passed the college in
-June, 1999 and is currently working with Satyam Computers.</font></a></p>
+    <footer>
+        <p>&copy; 1999-2026 Ahzam Ali. Released under the MIT License.</p>
+    </footer>
 
-<p><a name="Authors"><font color="#0080C0" size="5"><strong>Neeraj
-Grover</strong><br>
-</font><font color="#400040" size="3">Has passed the college
-June, 1999 and is also with Satyam Computers these days.</font></a></p>
-
-<p>&nbsp;</p>
-
-<hr>
-
-<p><a name="Source"><font color="#000000" size="3">You can ask
-any thing about this program by post on writting in with a self
-addressed stamped envelop or by email at </font><font
-color="#000040" size="4"><em>ahzam01@hotmail.com.</em></font>
-It would be our pleasure to receive your comments too.</a></p>
-
-<p><a name="Source"><font color="#000000" size="3">Any one
-interested in modifying or improving this application and needs
-the source code for that or otherwise can get it at the following
-address on prepayment of Rs 290/-* as processing charges, the
-source code will be sent on a 3.5&quot; floppy disk along with
-additional documents needed for understanding the code.</font></a></p>
-
-<p align="left"><a name="Source"><font color="#0080C0" size="5">Ahzam
-Ali</font><font color="#004000" size="6"><br>
-</font><font color="#400040" size="3">I - 37, Rahman Street, </font><font
-color="#400040" size="4"><br>
-</font><font color="#400040" size="3">Batla House,</font><font
-color="#400040" size="4"><br>
-</font><font color="#400040" size="3">New Delhi 110025.</font></a></p>
-
-<p><a name="Source"><font color="#000000" size="3">*</font></a><font
-color="#000000" size="3">Payments should be in form Demand Draft
-in favour of AHZAM ALI</font> payable at New Delhi.<br>
-<a name="Source"><font color="#000000" size="2">This includes
-courier charges for Indian cities only</font></a><font
-color="#000000" size="2">. Charges abroad is $15 only (includes
-courier charges).</font></p>
-
-<hr>
-
-<p><font color="#0080FF" size="4" face="PixieFont">Akshar 1.1</font><font
-color="#000000" size="4"> </font><font color="#000000" size="3">compiled
-on May 16, 1999.</font><br>
-<font size="5">© </font><font size="2">Reserved with Ahzam Ali.
-1999.</font></p>
 </body>
+
 </html>
