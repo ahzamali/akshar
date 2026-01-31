@@ -63,6 +63,8 @@ void refresh (void);
 void scrollup (void);
 void scrolldn (void);
 void savefile (void);
+void insert_char_at_cursor(char c);
+void delete_char_at_cursor(void);
 
 void *image1, *image2;
 
@@ -123,7 +125,8 @@ void main (void)
     initscreen ();
 
     // Main program loop
-begin:
+    while(1)
+    {
 
     // Points to the character
     pointer ();
@@ -139,7 +142,7 @@ begin:
         // Do nothing when Escape and tab is pressed
         case 27:
         case 9:
-            goto begin;
+            continue;
 
         // Process backspace
         case 8:
@@ -149,7 +152,7 @@ begin:
                 if (char_str[cur_char - 1] == 'f')
                     bkspace ();
             }
-            goto begin;
+            continue;
         case 0:
             // If the key pressed is function key
             switch (getch ())
@@ -163,7 +166,7 @@ begin:
                         getchar ();
                         currentlineNo--;
                     }
-                    goto begin;
+                    continue;
                 //down arrow
                 case 80:
                     if (ycpos < (15 * ycinc) && currentlineNo < total_line)
@@ -173,7 +176,7 @@ begin:
                         getchar ();
                         currentlineNo++;
                     }
-                    goto begin;
+                    continue;
                 //left arrow
                 case 75:
                     if ((cur_char > 0) && (char_str[cur_char - 1] != 0))
@@ -182,7 +185,7 @@ begin:
                         moveptrlt ();
                         getchar ();
                     }
-                    goto begin;
+                    continue;
                 //right arrow
                 case 77:
                     if (char_str[cur_char] != 10 && char_str[cur_char] != 0 && 
@@ -192,76 +195,55 @@ begin:
                         moveptrrt ();
                         getchar ();
                     }
-                    goto begin;
+                    continue;
                 // Function 1
                 case 59:
                     savefile ();
-                    goto begin;
+                    continue;
                 // Function 2
                 case 60:
                     getfilename ();
-                    goto begin;
+                    continue;
                 // Function 3
                 case 61:
                     openfile ();
-                    goto begin;
+                    continue;
                 // Function 4
                 case 62:
                     refresh ();
-                    goto begin;
+                    continue;
                 // Function 5
                 case 63:
                     print_file ();
-                    goto begin;
+                    continue;
                 // Function 6
                 case 64:
                     new_file ();
-                    goto begin;
+                    continue;
                 // Function 10
                 case 68:
                     Exit ();
+                    return;
                 // Delete
                 case 83:
-                    if (total_char > cur_char && char_str[cur_char] != '\n')
-                    {
-                        tempxcp = xcpos;
-                        print_flag = 0;
-                        identkey (char_str[cur_char]);
-                        getline ();
-                        xcpos = tempxcp;
-                        putline ();
-                        memmove (char_str + cur_char, char_str + cur_char + 1,
-                                total_char - cur_char);
-                        getchar ();
-                    }
-                    goto begin;
+                    delete_char_at_cursor();
+                    getchar();
+                    continue;
                 default:
-                    goto begin;
+                    continue;
             }
 
         default:
             if (c == 9)
-                goto begin;
+                continue;
             if (c == 13 && currentlineNo == 14)
             {
                 print_massage ("vkSj ykbu ufga gSa MkdgesV ns[ksa");
-                goto begin;
+                continue;
             }
-            if (total_char > cur_char)
-                memmove (char_str + cur_char + 1, char_str + cur_char,
-                        total_char - cur_char);
-            identkey (c);
-
-            if (c == 13)
-                char_str[cur_char] = '\n';
-            else
-                char_str[cur_char] = c;
-            char_str[total_char + 1] = '\0';
-
-            total_char++;
-            cur_char++;
-            save_flag = 0;
-
+            if (c == 13) c = '\n';
+            
+            insert_char_at_cursor(c);
             break;
     }
     if (xcpos >= maxxc && ycpos <= (16 * ycinc))
@@ -274,7 +256,7 @@ begin:
         currentlineNo++;
         total_line++;
     }
-    goto begin;
+    }
 }
 
 // Clears the buffer and resets the values to initial values
@@ -1270,4 +1252,45 @@ ret:
     xcpos = xc;
     ycpos = yc;
     return;
+}
+
+// Helper function to insert a character at the current cursor position
+void insert_char_at_cursor(char c)
+{
+    if (total_char >= 6399) return; // Prevent buffer overflow
+
+    if (total_char > cur_char)
+    {
+        memmove(char_str + cur_char + 1, char_str + cur_char, total_char - cur_char);
+    }
+    
+    identkey(c);
+    char_str[cur_char] = c;
+    char_str[total_char + 1] = '\0';
+    
+    total_char++;
+    cur_char++;
+    save_flag = 0;
+}
+
+// Helper function to delete a character at the current cursor position
+void delete_char_at_cursor(void)
+{
+    if (total_char > cur_char)
+    {
+        int tempxcp = xcpos;
+        print_flag = 0;
+        
+        if (char_str[cur_char] != '\n') 
+        {
+            identkey(char_str[cur_char]);
+        }
+        
+        getline();
+        xcpos = tempxcp;
+        putline();
+        
+        memmove(char_str + cur_char, char_str + cur_char + 1, total_char - cur_char);
+        total_char--; // Decrement total chars
+    }
 }
